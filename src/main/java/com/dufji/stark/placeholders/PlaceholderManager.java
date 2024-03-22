@@ -29,10 +29,16 @@ public class PlaceholderManager extends PlaceholderExpansion {
         StarkPlayer sPlayer = new StarkPlayer(player);
 
         if(sPlayer.getPlayer().isOnline()) {
-            if (identifier.equals("balance")) {
-                return String.valueOf(sPlayer.getBalance());
+            switch (identifier) {
+                case "balance":
+                    return String.valueOf(sPlayer.getBalance());
+
+                case "player_name":
+                    return sPlayer.getName();
+
+                default:
+                    return "Unknown placeholder";
             }
-            return "Unknown placeholder";
         }
 
         return null;

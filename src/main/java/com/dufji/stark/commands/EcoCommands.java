@@ -44,7 +44,7 @@ public class EcoCommands {
     }
 
 
-    @Command({"balance set", "stark balance set"})
+    @Command({"balance set", "stark balance set", "eco set"})
     @CommandPermission("stark.balance.set")
     public void onSetBalanceCommand(Player sender, Player target, double amount) {
 
