@@ -1,71 +1,34 @@
 package com.dufji.stark.models;
 
-import com.dufji.stark.utils.CC;
-import org.bukkit.Bukkit;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.UUID;
 
-
+@Getter
 public class StarkPlayer {
-    private UUID uuid;
-    private String name;
-    private double balance;
-    private final Player player;
 
-    public StarkPlayer(UUID uuid, String name, double balance) {
-        this.uuid = uuid;
-        this.name = name;
-        this.balance = balance;
-        this.player = Bukkit.getServer().getPlayer(uuid);
-    }
+    private final UUID uuid;
+    private final String name;
+    private final Player player;
 
     public StarkPlayer(Player player) {
         this.player = player;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public UUID getUuid() {
-        return this.uuid;
+        this.uuid = player.getUniqueId();
+        this.name = player.getName();
     }
 
     public double getBalance() {
-        return this.balance;
+        return 0;
     }
 
     public void setBalance(double balance) {
         // TODO: implement logic for the setBalance method
     }
 
-    public void addBalance(double amount) {
-        // TODO: implement logic for the addBalance method
+    public List<StarkPlayer> getTopBalances() {
+        return null;
     }
-
-    public void removeBalance(double amount) {
-        // TODO: implement logic for the removeBalance method
-    }
-
-   public void sendMessage(String message) {
-       Bukkit.getServer().getPlayer(this.uuid).sendMessage(CC.translate(message));
-   }
-
-    public Player getPlayer() {
-         return this.player;
-    }
-
-
-    public boolean isOnline() {
-        return this.player.isOnline();
-    }
-
-
-
-
-
-
-
 
 }

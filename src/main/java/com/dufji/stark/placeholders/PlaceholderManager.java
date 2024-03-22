@@ -7,19 +7,20 @@ import org.jetbrains.annotations.NotNull;
 
 
 public class PlaceholderManager extends PlaceholderExpansion {
+
     @Override
     public @NotNull String getIdentifier() {
-        return "stark";
+        return "Stark";
     }
 
     @Override
     public @NotNull String getAuthor() {
-        return "dufji";
+        return "Dufji, HyperSkys";
     }
 
     @Override
     public @NotNull String getVersion() {
-        return "1.0";
+        return "1.0.0";
     }
 
 
@@ -27,14 +28,14 @@ public class PlaceholderManager extends PlaceholderExpansion {
     public String onPlaceholderRequest(Player player, @NotNull String identifier) {
         StarkPlayer sPlayer = new StarkPlayer(player);
 
-        if(sPlayer != null && sPlayer.isOnline()) {
-            switch(identifier) {
-                case "balance":
-                    return String.valueOf(sPlayer.getBalance());
-                case "player_name":
-                    return sPlayer.getName();
+        if(sPlayer.getPlayer().isOnline()) {
+            if (identifier.equals("balance")) {
+                return String.valueOf(sPlayer.getBalance());
             }
+            return "Unknown placeholder";
         }
+
         return null;
     }
+
 }
