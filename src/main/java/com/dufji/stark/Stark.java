@@ -1,18 +1,24 @@
 package com.dufji.stark;
 
+import com.dufji.stark.database.MongoDBManager;
+import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
 public final class Stark extends JavaPlugin {
+
+    private static @Getter Stark instance;
+    private MongoDBManager mongoDBManager;
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
-
+        instance = this;
+        mongoDBManager = new MongoDBManager("mongodb://localhost:27017");
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        mongoDBManager.close();
     }
 
 }

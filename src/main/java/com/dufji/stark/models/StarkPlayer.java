@@ -1,7 +1,8 @@
 package com.dufji.stark.models;
 
+import com.dufji.stark.Stark;
 import lombok.Getter;
-import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -11,15 +12,19 @@ import java.util.UUID;
 public class StarkPlayer {
 
     private final UUID uuid;
-    private final String name;
     private final Player player;
-    private @Getter @Setter double balance;
 
-    public StarkPlayer(Player player) {
-        this.balance = 0.0;
-        this.player = player;
-        this.uuid = player.getUniqueId();
-        this.name = player.getName();
+    public StarkPlayer(UUID uuid) {
+        this.uuid = uuid;
+        this.player = Bukkit.getPlayer(uuid);
+    }
+
+    public double getBalance() {
+        return Stark.getInstance().getMongoDBManager().getUserBalance(uuid);
+    }
+
+    public void setBalance(double balance) {
+        Stark.getInstance().getMongoDBManager().setUserBalance(uuid, balance);
     }
 
     public List<StarkPlayer> getTopBalances() {

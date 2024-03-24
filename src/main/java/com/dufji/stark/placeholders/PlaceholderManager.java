@@ -26,16 +26,13 @@ public class PlaceholderManager extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String identifier) {
-        StarkPlayer sPlayer = new StarkPlayer(player);
-
+        StarkPlayer sPlayer = new StarkPlayer(player.getUniqueId());
         if(sPlayer.getPlayer().isOnline()) {
             switch (identifier) {
                 case "balance":
                     return String.valueOf(sPlayer.getBalance());
-
-                case "player_name":
-                    return sPlayer.getName();
-
+                case "player_name": // fucking useless but whatever
+                    return sPlayer.getPlayer().getDisplayName();
                 default:
                     return "Unknown placeholder";
             }
