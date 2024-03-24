@@ -16,21 +16,21 @@ public class EcoCommands {
     @CommandPermission("stark.balance")
     public void onBalanceCommand(Player player, @Optional Player target) {
         if(target == null) {
-            StarkPlayer starkPlayer = new StarkPlayer(player);
+            StarkPlayer starkPlayer = new StarkPlayer(player.getUniqueId());
             player.sendMessage(CC.translate("&eYour balance is: &6" + starkPlayer.getBalance()));
             return;
         }
 
-        StarkPlayer starkPlayer = new StarkPlayer(target);
-        player.sendMessage(CC.translate("&6" + starkPlayer.getName() + "'s &ebalance is: &6" + starkPlayer.getBalance()));
+        StarkPlayer starkPlayer = new StarkPlayer(target.getUniqueId());
+        player.sendMessage(CC.translate("&6" + player.getDisplayName() + "'s &ebalance is: &6" + starkPlayer.getBalance()));
     }
 
 
     @Command({"pay", "stark pay"})
     @CommandPermission("stark.pay")
     public void onPayCommand(Player sender, Player target, double amount) {
-        StarkPlayer starkSender = new StarkPlayer(sender);
-        StarkPlayer starkTarget = new StarkPlayer(target);
+        StarkPlayer starkSender = new StarkPlayer(sender.getUniqueId());
+        StarkPlayer starkTarget = new StarkPlayer(target.getUniqueId());
 
         if(starkSender.getBalance() < amount) {
             sender.sendMessage(CC.translate("&cYou do not have enough money to pay that amount."));
@@ -39,8 +39,8 @@ public class EcoCommands {
 
         starkSender.setBalance(starkSender.getBalance() - amount);
         starkTarget.setBalance(starkTarget.getBalance() + amount);
-        sender.sendMessage(CC.translate("&eYou have paid &6" + amount + " &eto &6" + starkTarget.getName()));
-        target.sendMessage(CC.translate("&6" + starkSender.getName() + " &ehas paid you &6" + amount));
+        sender.sendMessage(CC.translate("&eYou have paid &6" + amount + " &eto &6" + target.getDisplayName()));
+        target.sendMessage(CC.translate("&6" + sender.getDisplayName() + " &ehas paid you &6" + amount));
     }
 
 
@@ -53,18 +53,18 @@ public class EcoCommands {
             return;
         }
 
-        StarkPlayer starkTarget = new StarkPlayer(target);
+        StarkPlayer starkTarget = new StarkPlayer(target.getUniqueId());
         starkTarget.setBalance(amount);
-        sender.sendMessage(CC.translate("&eYou have set &6" + starkTarget.getName() + "'s &ebalance to &6" + amount));
+        sender.sendMessage(CC.translate("&eYou have set &6" + target.getDisplayName() + "'s &ebalance to &6" + amount));
     }
 
     @Command({"balance top", "baltop", "balancetop"})
     @CommandPermission("stark.balance.top")
     public void onBalanceTopCommand(Player sender) {
         sender.sendMessage(CC.translate("&eTop 10 balances:"));
-        List<StarkPlayer> topBalances = new StarkPlayer(sender).getTopBalances();
+        List<StarkPlayer> topBalances = new StarkPlayer(sender.getUniqueId()).getTopBalances();
         for (int i = 1; i <= topBalances.size(); i++) {
-            sender.sendMessage(CC.translate("&7[" + i + "&7]" + " &6" + topBalances.get(i).getName() + " &e- &6" + topBalances.get(i).getBalance()));
+            sender.sendMessage(CC.translate("&7[" + i + "&7]" + " &6" + topBalances.get(i).getPlayer().getDisplayName() + " &e- &6" + topBalances.get(i).getBalance()));
         }
     }
 
