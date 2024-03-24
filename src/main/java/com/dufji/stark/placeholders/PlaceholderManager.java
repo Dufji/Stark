@@ -31,8 +31,8 @@ public class PlaceholderManager extends PlaceholderExpansion {
             switch (identifier) {
                 case "balance":
                     return String.valueOf(sPlayer.getBalance());
-                case "player_name": // fucking useless but whatever
-                    return sPlayer.getPlayer().getDisplayName();
+                case "baltop_position":
+                    return String.valueOf(sPlayer.getBaltopPosition());
                 default:
                     return "Unknown placeholder";
             }

@@ -31,4 +31,8 @@ public class StarkPlayer {
         return null;
     }
 
+    public int getBaltopPosition() {
+        return 0;
+    }
+
 }
