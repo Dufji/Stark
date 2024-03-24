@@ -12,7 +12,7 @@ import java.util.UUID;
 public class StarkPlayer {
 
     private final UUID uuid;
-    private final Player player; // player is null if the player is offline
+    private final Player player;
 
     public StarkPlayer(UUID uuid) {
         this.uuid = uuid;
