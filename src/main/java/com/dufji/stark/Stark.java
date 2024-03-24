@@ -14,6 +14,8 @@ public final class Stark extends JavaPlugin {
     public void onEnable() {
         instance = this;
         mongoDBManager = new MongoDBManager("mongodb://localhost:27017");
+        // FART
+        instance = this;
     }
 
     @Override
