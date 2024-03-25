@@ -63,6 +63,7 @@ public class EcoCommands {
     public void onBalanceTopCommand(Player sender) {
         sender.sendMessage(CC.translate("&eTop 10 balances:"));
         List<StarkPlayer> topBalances = new StarkPlayer(sender.getUniqueId()).getTopBalances();
+        // topBalances.forEach(starkPlayer -> sender.sendMessage(CC.translate("&7[" + starkPlayer.getBaltopPosition() + "&7]" +  "&6" + starkPlayer.getPlayer().getDisplayName() + " &e- &6" + starkPlayer.getBalance())));
         for (int i = 1; i <= topBalances.size(); i++) {
             sender.sendMessage(CC.translate("&7[" + i + "&7]" + " &6" + topBalances.get(i).getPlayer().getDisplayName() + " &e- &6" + topBalances.get(i).getBalance()));
         }
