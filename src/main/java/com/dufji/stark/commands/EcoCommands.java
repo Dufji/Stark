@@ -1,5 +1,6 @@
 package com.dufji.stark.commands;
 
+import com.dufji.stark.enums.Language;
 import com.dufji.stark.models.StarkPlayer;
 import com.dufji.stark.utils.CC;
 import org.bukkit.entity.Player;
@@ -33,7 +34,7 @@ public class EcoCommands {
         StarkPlayer starkTarget = new StarkPlayer(target.getUniqueId());
 
         if(starkSender.getBalance() < amount) {
-            sender.sendMessage(CC.translate("&cYou do not have enough money to pay that amount."));
+            sender.sendMessage(CC.translate(Language.ERROR_NOT_ENOUGH_MONEY.toString()));
             return;
         }
 
@@ -49,7 +50,7 @@ public class EcoCommands {
     public void onSetBalanceCommand(Player sender, Player target, double amount) {
 
         if (amount < 0) {
-            sender.sendMessage(CC.translate("&cYou cannot set a negative balance."));
+            sender.sendMessage(CC.translate(Language.ERROR_NEGATIVE_BALANCE.toString()));
             return;
         }
 
