@@ -28,20 +28,24 @@ public class EcoCommands {
 
 
     @Command({"pay", "stark pay"})
-    @CommandPermission("stark.pay")
+    @CommandPermission("stark.balance.pay")
     public void onPayCommand(Player sender, Player target, double amount) {
-        StarkPlayer starkSender = new StarkPlayer(sender.getUniqueId());
-        StarkPlayer starkTarget = new StarkPlayer(target.getUniqueId());
+        try {
+            StarkPlayer starkSender = new StarkPlayer(sender.getUniqueId());
+            StarkPlayer starkTarget = new StarkPlayer(target.getUniqueId());
 
-        if(starkSender.getBalance() < amount) {
-            sender.sendMessage(CC.translate(Language.ERROR_NOT_ENOUGH_MONEY.toString()));
-            return;
+            if(starkSender.getBalance() < amount) {
+                sender.sendMessage(CC.translate(Language.ERROR_NOT_ENOUGH_MONEY.toString()));
+                return;
+            }
+
+            starkSender.setBalance(starkSender.getBalance() - amount);
+            starkTarget.setBalance(starkTarget.getBalance() + amount);
+            sender.sendMessage(CC.translate(Language.SUCCESS_PAY.toString().replace("%player%", target.getDisplayName()).replace("%amount%", String.valueOf(amount))));
+            target.sendMessage(CC.translate(Language.NOTICE_PAY.toString().replace("%player%", sender.getDisplayName()).replace("%amount%", String.valueOf(amount))));
+        } catch (Exception e) {
+            sender.sendMessage(CC.translate(Language.ERROR_INVALID_AMOUNT.toString()));
         }
-
-        starkSender.setBalance(starkSender.getBalance() - amount);
-        starkTarget.setBalance(starkTarget.getBalance() + amount);
-        sender.sendMessage(CC.translate("&eYou have paid &6" + amount + " &eto &6" + target.getDisplayName()));
-        target.sendMessage(CC.translate("&6" + sender.getDisplayName() + " &ehas paid you &6" + amount));
     }
 
 
@@ -56,7 +60,7 @@ public class EcoCommands {
 
         StarkPlayer starkTarget = new StarkPlayer(target.getUniqueId());
         starkTarget.setBalance(amount);
-        sender.sendMessage(CC.translate("&eYou have set &6" + target.getDisplayName() + "'s &ebalance to &6" + amount));
+        sender.sendMessage(CC.translate(Language.SUCCESS_SET_BALANCE.toString().replace("%player%", target.getDisplayName()).replace("%amount%", String.valueOf(amount))));
     }
 
     @Command({"balance top", "baltop", "balancetop"})
