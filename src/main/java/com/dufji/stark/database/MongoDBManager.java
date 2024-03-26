@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
 
+// HyperSkys Task #1
 @Getter
 public class MongoDBManager {
 

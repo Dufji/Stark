@@ -2,6 +2,7 @@ package com.dufji.stark.enums;
 
 import com.dufji.stark.models.StarkPlayer;
 
+// Dufji Task #1
 public enum Language {
     ERROR_NO_PERMISSION("I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is an error."),
     ERROR_PLAYER_ONLY("&c&lERROR! &cOnly players can execute this command."),

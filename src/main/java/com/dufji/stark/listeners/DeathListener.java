@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+// Dufji Task #3
 public class DeathListener implements Listener {
 
     private static Stark starkPlugin;

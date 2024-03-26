@@ -9,6 +9,7 @@ import java.text.NumberFormat;
 import java.util.List;
 import java.util.logging.SimpleFormatter;
 
+// HyperSkys Task #2 & #3
 public class StarkVaultHook implements Economy {
 
     @Override
