@@ -3,8 +3,6 @@ mongodb:
   password: "admin"
   host: "localhost"
   url: "mongodb+srv://[username:password@]host[/[defaultauthdb][?options]]"
-
-
 death-event:
   giveMoney: true
   minKillMoney: 100

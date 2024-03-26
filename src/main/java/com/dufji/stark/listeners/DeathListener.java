@@ -41,7 +41,7 @@ public class DeathListener implements Listener {
 
             // Im thinking about adding that the dead guy loses money that will go to the killer
             // Let me know if you want me to add that
-
+            // no dumb idea (what if they have no money!?!)
 
 
         }
