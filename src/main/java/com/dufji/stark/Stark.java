@@ -1,36 +1,39 @@
 package com.dufji.stark;
 
-import com.dufji.stark.database.MongoDBManager;
+import com.dufji.stark.commands.BalanceCommand;
+import com.dufji.stark.database.StarkDatabase;
+import dev.hyperskys.configurator.Configurator;
+import dev.hyperskys.configurator.annotations.GetValue;
+import dev.hyperskys.configurator.api.Configuration;
 import lombok.Getter;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 @Getter
 public final class Stark extends JavaPlugin {
 
     private static @Getter Stark instance;
-    private MongoDBManager mongoDBManager;
+    private final Configuration configuration = new Configuration("config.yml");
+    public static @GetValue(file = "config.yml", path = "Settings.database-type") String databaseKey  = "file";
+    private StarkDatabase starkDatabase;
 
-    private FileConfiguration config;
+    @Override
+    public void onLoad() {
+        instance = this;
+    }
 
     @Override
     public void onEnable() {
-
-        try {
-            instance = this;
-            config = Stark.getInstance().getConfig();
-            mongoDBManager = new MongoDBManager(config.getString("mongodb.connectionURL"));
-        } catch (Exception exception) {
-            getLogger().severe("Failed to connect to the MongoDB database.");
-            getServer().getPluginManager().disablePlugin(this);
-        }
-
+        Configurator.setupConfigurator(this);
+        BukkitCommandHandler handler = BukkitCommandHandler.create(this);
+        handler.register(new BalanceCommand());
+        configuration.init();
+        starkDatabase = StarkDatabase.getFromKey(databaseKey);
     }
-
 
     @Override
     public void onDisable() {
-        mongoDBManager.close();
+
     }
 
 }

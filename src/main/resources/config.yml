@@ -1,9 +1,23 @@
-mongodb:
-  user: "admin"
-  password: "admin"
-  host: "localhost"
-  url: "mongodb+srv://[username:password@]host[/[defaultauthdb][?options]]"
-death-event:
-  giveMoney: true
-  minKillMoney: 100
-  maxKillMoney: 1000
+Settings:
+  "vault-hook": true
+  "database-type": "file"
+Databases:
+  MongoDB:
+    "connection-uri": "mongodb://localhost:27017"
+    "database-name": "Stark"
+  MySQL:
+    "host": "localhost"
+    "port": 3306
+    "username": "root"
+    "password": "password"
+    "database": "Stark"
+  Titanium:
+    "host": "localhost"
+    "port": 2048
+    "username": "admin"
+    "password": "password"
+    "database": "Stark"
+Messages:
+  "player-never-played": "&c%player% has never played before."
+  "view-balance-self": "&7[&6Stark&7] &fYour balance is: &e$%balance%"
+  "view-balance-other": "&7[&6Stark&7] &fThe balance of &e%player% &fis: &e$%balance%"
