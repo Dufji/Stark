@@ -1,6 +1,7 @@
 package com.dufji.stark.listeners;
 
 import com.dufji.stark.Stark;
+import com.dufji.stark.enums.Language;
 import com.dufji.stark.models.StarkPlayer;
 import com.dufji.stark.utils.CC;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -37,12 +38,13 @@ public class DeathListener implements Listener {
 
             // Adding money to the killer
             killer.setBalance(killer.getBalance() + amount);
-            killer.getPlayer().sendMessage(CC.translate("&eYou have received &6" + amount + " &efrom killing &6" + deadGuy.getPlayer().getName()));
+            killer.getPlayer().sendMessage(Language.NOTICE_BALANCE_ADD.toString().replace("%amount%", String.valueOf(amount)).replace("%player%",deadGuy.getPlayer().getName()));
 
 
-            // Im thinking about adding that the dead guy loses money that will go to the killer
-            // Let me know if you want me to add that
-            // no dumb idea (what if they have no money!?!)
+            if(!(deadGuy.getBalance() <= 0)) {
+                deadGuy.setBalance(deadGuy.getBalance() - amount);
+                deadGuy.getPlayer().sendMessage(CC.translate(Language.NOTICE_BALANCE_DEATH.toString().replace("%amount%", String.valueOf(amount)).replace("%player%",killer.getPlayer().getName())));
+            }
 
 
         }

@@ -1,5 +1,6 @@
 package com.dufji.stark.commands;
 
+import com.dufji.stark.Stark;
 import com.dufji.stark.enums.Language;
 import com.dufji.stark.models.StarkPlayer;
 import com.dufji.stark.utils.CC;
@@ -9,6 +10,7 @@ import revxrsal.commands.annotation.Optional;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 import java.util.List;
+import java.util.logging.Level;
 
 @SuppressWarnings("unused")
 public class EcoCommands {
@@ -44,7 +46,7 @@ public class EcoCommands {
             sender.sendMessage(CC.translate(Language.SUCCESS_PAY.toString().replace("%player%", target.getDisplayName()).replace("%amount%", String.valueOf(amount))));
             target.sendMessage(CC.translate(Language.NOTICE_PAY.toString().replace("%player%", sender.getDisplayName()).replace("%amount%", String.valueOf(amount))));
         } catch (Exception e) {
-            sender.sendMessage(CC.translate(Language.ERROR_INVALID_AMOUNT.toString()));
+            sender.sendMessage(CC.translate(Language.ERROR_SOMETHING_WENT_WRONG.toString()));
         }
     }
 
@@ -53,14 +55,20 @@ public class EcoCommands {
     @CommandPermission("stark.balance.set")
     public void onSetBalanceCommand(Player sender, Player target, double amount) {
 
+
         if (amount < 0) {
             sender.sendMessage(CC.translate(Language.ERROR_NEGATIVE_BALANCE.toString()));
             return;
         }
+        try {
+            StarkPlayer starkTarget = new StarkPlayer(target.getUniqueId());
+            starkTarget.setBalance(amount);
+            sender.sendMessage(CC.translate(Language.SUCCESS_SET_BALANCE.toString().replace("%player%", target.getDisplayName()).replace("%amount%", String.valueOf(amount))));
+            target.sendMessage(CC.translate(Language.NOTICE_BALANCE_SET.toString().replace("%amount%",String.valueOf(amount))));
+        } catch (Exception e) {
+            sender.sendMessage(CC.translate(Language.ERROR_SOMETHING_WENT_WRONG.toString()));
 
-        StarkPlayer starkTarget = new StarkPlayer(target.getUniqueId());
-        starkTarget.setBalance(amount);
-        sender.sendMessage(CC.translate(Language.SUCCESS_SET_BALANCE.toString().replace("%player%", target.getDisplayName()).replace("%amount%", String.valueOf(amount))));
+        }
     }
 
     @Command({"balance top", "baltop", "balancetop"})
