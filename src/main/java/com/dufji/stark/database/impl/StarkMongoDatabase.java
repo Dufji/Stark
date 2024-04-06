@@ -16,4 +16,9 @@ public class StarkMongoDatabase extends StarkDatabase {
 
     }
 
+    @Override
+    public Integer getBalTopPosition(UUID uuid) {
+        return 0;
+    }
+
 }

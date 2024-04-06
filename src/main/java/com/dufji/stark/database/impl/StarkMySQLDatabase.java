@@ -16,4 +16,10 @@ public class StarkMySQLDatabase extends StarkDatabase {
 
     }
 
+    @Override
+    public Integer getBalTopPosition(UUID uuid) {
+        return 0;
+    }
+
+
 }

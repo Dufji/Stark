@@ -2,3 +2,4 @@ name: Stark
 version: '${project.version}'
 main: com.dufji.stark.Stark
 authors: [Dufji, HyperSkys]
+depend: [Vault]

@@ -2,16 +2,17 @@ package com.dufji.stark.database.impl;
 
 import com.dufji.stark.Stark;
 import com.dufji.stark.database.StarkDatabase;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.dufji.stark.model.StarkPlayer;
+import com.google.gson.*;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class StarkFileDatabase extends StarkDatabase {
 
@@ -72,6 +73,7 @@ public class StarkFileDatabase extends StarkDatabase {
         return jsonObject.get(uuid.toString()).getAsFloat();
     }
 
+    //TODO: Fix the issue of the balance resetting to 0 after a server restart
     @Override
     public void setBalance(UUID uuid, float balance) {
         refreshJsonObject();
@@ -83,6 +85,37 @@ public class StarkFileDatabase extends StarkDatabase {
         jsonObject.remove(uuid.toString());
         jsonObject.addProperty(uuid.toString(), balance);
         saveJsonObject();
+    }
+
+
+
+
+    @Override
+    public Integer getBalTopPosition(UUID uuid) {
+        refreshJsonObject();
+
+        if (!jsonObject.has(uuid.toString())) {
+            jsonObject.addProperty(uuid.toString(), 0);
+            saveJsonObject();
+            return 0;
+        }
+
+
+        OfflinePlayer[] allPlayers = Bukkit.getOfflinePlayers();
+
+        List<StarkPlayer> sortedPlayers = Arrays.stream(allPlayers)
+                .map(player -> new StarkPlayer(player.getUniqueId()))
+                .sorted(Comparator.comparing(StarkPlayer::getBalance).reversed())
+                .collect(Collectors.toList());
+
+
+
+        List<StarkPlayer> topPlayers = sortedPlayers.stream()
+                .limit(jsonObject.entrySet().size())
+                .collect(Collectors.toList());
+
+
+        return topPlayers.indexOf(new StarkPlayer(uuid));
     }
 
 }

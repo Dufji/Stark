@@ -22,4 +22,8 @@ public class StarkPlayer {
         Stark.getInstance().getStarkDatabase().setBalance(uuid, balance);
     }
 
+    public Integer getBalTopPosition() {
+        return Stark.getInstance().getStarkDatabase().getBalTopPosition(uuid);
+    }
+
 }

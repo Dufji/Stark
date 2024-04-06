@@ -1,5 +1,6 @@
 package com.dufji.stark.commands;
 
+import com.dufji.stark.Stark;
 import com.dufji.stark.model.StarkPlayer;
 import com.dufji.stark.utils.CC;
 import dev.hyperskys.configurator.annotations.GetValue;
@@ -12,7 +13,6 @@ import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 public class BalanceCommand {
 
-    public static @GetValue(file = "config.yml", path = "Messages.player-never-played") String playerNeverPlayedBefore  = "&cFailed to load configuration message.";
     public static @GetValue(file = "config.yml", path = "Messages.view-balance-self") String viewBalanceSelf  = "&cFailed to load configuration message.";
     public static @GetValue(file = "config.yml", path = "Messages.view-balance-other") String viewBalanceOther  = "&cFailed to load configuration message.";
 
@@ -21,18 +21,13 @@ public class BalanceCommand {
     public void onBalanceCommand(Player player, @Optional String targetName) {
         if (targetName == null) {
             StarkPlayer starkPlayer = new StarkPlayer(player.getUniqueId());
-            player.sendMessage(CC.translate(viewBalanceSelf.replaceAll("%balance%", String.valueOf(starkPlayer.getBalance()))));
+            player.sendMessage(CC.translate(viewBalanceSelf.replaceAll("%balance%", Stark.formatCurrency(starkPlayer.getBalance()))));
             return;
         }
 
         OfflinePlayer target = Bukkit.getOfflinePlayer(targetName);
-        if (!target.hasPlayedBefore()) {
-            player.sendRawMessage(CC.translate(playerNeverPlayedBefore.replaceAll("%player%", targetName)));
-            return;
-        }
-
         StarkPlayer starkPlayer = new StarkPlayer(target.getUniqueId());
-        player.sendMessage(CC.translate(viewBalanceOther.replaceAll("%player%", targetName).replace("%balance%", String.valueOf(starkPlayer.getBalance()))));
+        player.sendMessage(CC.translate(viewBalanceOther.replaceAll("%player%", targetName).replace("%balance%", Stark.formatCurrency(starkPlayer.getBalance()))));
     }
 
 }
