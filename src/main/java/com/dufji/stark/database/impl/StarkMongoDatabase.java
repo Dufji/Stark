@@ -36,6 +36,7 @@ public class StarkMongoDatabase extends StarkDatabase {
                 Document document = new Document("uuid", uuid.toString());
                 document.put("balance", "0");
                 dataCollection.insertOne(document);
+                return 0;
             }
 
             return Float.parseFloat(dataCollection.find(new Document("uuid", uuid.toString())).first().getString("balance"));

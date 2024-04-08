@@ -39,7 +39,5 @@ public class TopBalanceCommand {
             sender.sendMessage(CC.translate("&6") + (i + 1) + ". " + Bukkit.getOfflinePlayer(player.getUuid()).getName() + ": $" + Stark.formatCurrency(player.getBalance()));
         }
 
-
-
     }
 }

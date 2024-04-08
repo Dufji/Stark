@@ -5,9 +5,7 @@ import com.dufji.stark.database.StarkDatabase;
 import dev.hyperskys.configurator.annotations.GetValue;
 import org.bukkit.Bukkit;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.UUID;
 
 public class StarkMySQLDatabase extends StarkDatabase {
@@ -33,19 +31,26 @@ public class StarkMySQLDatabase extends StarkDatabase {
     @Override
     public float getBalance(UUID uuid) {
         try {
-            Statement statement = connection.createStatement();
-            return statement.executeQuery("SELECT balance FROM balances WHERE uuid = '" + uuid.toString() + "'").getFloat("balance");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT balance FROM balances WHERE uuid = ?");
+            preparedStatement.setString(1, uuid.toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getFloat("balance");
+            }
         } catch (Exception exception) {
             Stark.getInstance().getLogger().severe("An error occurred while getting the balance of a player.");
-            return -1;
         }
+        return -1;
     }
 
     @Override
     public void setBalance(UUID uuid, float balance) {
         try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO balances (uuid, balance) VALUES ('" + uuid.toString() + "', " + balance + ") ON DUPLICATE KEY UPDATE balance = " + balance);
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO balances (uuid, balance) VALUES (?, ?) ON DUPLICATE KEY UPDATE balance = ?");
+            preparedStatement.setString(1, uuid.toString());
+            preparedStatement.setFloat(2, balance);
+            preparedStatement.setFloat(3, balance);
+            preparedStatement.executeUpdate();
         } catch (Exception exception) {
             Stark.getInstance().getLogger().severe("An error occurred while setting the balance of a player.");
         }
@@ -54,12 +59,16 @@ public class StarkMySQLDatabase extends StarkDatabase {
     @Override
     public Integer getBalTopPosition(UUID uuid) {
         try {
-            Statement statement = connection.createStatement();
-            return statement.executeQuery("SELECT COUNT(*) FROM balances WHERE balance > (SELECT balance FROM balances WHERE uuid = '" + uuid.toString() + "')").getInt(1) + 1;
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM balances WHERE balance > (SELECT balance FROM balances WHERE uuid = ?)");
+            preparedStatement.setString(1, uuid.toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) + 1;
+            }
         } catch (Exception exception) {
             Stark.getInstance().getLogger().severe("An error occurred while getting the balance top position of a player.");
-            return -1;
         }
+        return -1;
     }
 
 }

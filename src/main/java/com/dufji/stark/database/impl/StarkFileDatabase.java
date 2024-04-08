@@ -121,7 +121,7 @@ public class StarkFileDatabase extends StarkDatabase {
             return list.indexOf(uuid) + 1;
         } catch (Exception exception) {
             Stark.getInstance().getLogger().log(Level.SEVERE, "An error occurred while getting the balance of " + uuid.toString());
-            return 0;
+            return -1;
         }
     }
 
