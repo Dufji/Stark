@@ -5,10 +5,9 @@ Databases:
   MongoDB:
     "connection-uri": "mongodb://localhost:27017"
   MySQL:
-    "host": "localhost"
-    "port": 3306
     "username": "root"
     "password": "password"
+    "connection-uri": "jdbc:mysql://localhost:3306/database"
 Messages:
   "account_not_found": "&c&lERROR! &4No account found for %player%"
   "view-balance-self": "&aYour balance is &a$%balance%"

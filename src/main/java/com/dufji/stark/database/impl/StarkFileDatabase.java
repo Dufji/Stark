@@ -65,53 +65,64 @@ public class StarkFileDatabase extends StarkDatabase {
 
     @Override
     public float getBalance(UUID uuid) {
-        refreshJsonObject();
-        if (!jsonObject.has(uuid.toString())) {
-            jsonObject.addProperty(uuid.toString(), 0);
-            saveJsonObject();
-            return 0;
-        }
+        try {
+            refreshJsonObject();
+            if (!jsonObject.has(uuid.toString())) {
+                jsonObject.addProperty(uuid.toString(), 0);
+                saveJsonObject();
+                return 0;
+            }
 
-        return jsonObject.get(uuid.toString()).getAsFloat();
+            return jsonObject.get(uuid.toString()).getAsFloat();
+        } catch (Exception exception) {
+            Stark.getInstance().getLogger().log(Level.SEVERE, "An error occurred while getting the balance of " + uuid.toString());
+            return -1;
+        }
     }
 
     @Override
     public void setBalance(UUID uuid, float balance) {
-        refreshJsonObject();
-        if (!jsonObject.has(uuid.toString())) {
+        try {
+            refreshJsonObject();
+            if (!jsonObject.has(uuid.toString())) {
+                jsonObject.addProperty(uuid.toString(), balance);
+                saveJsonObject();
+                return;
+            }
+
+            jsonObject.remove(uuid.toString());
             jsonObject.addProperty(uuid.toString(), balance);
             saveJsonObject();
-            return;
+        } catch (Exception exception) {
+            Stark.getInstance().getLogger().log(Level.SEVERE, "An error occurred while setting the balance of " + uuid.toString());
         }
-
-        jsonObject.remove(uuid.toString());
-        jsonObject.addProperty(uuid.toString(), balance);
-        saveJsonObject();
     }
-
-
 
     @Override
     public Integer getBalTopPosition(UUID uuid) {
-        refreshJsonObject();
+        try {
+            refreshJsonObject();
+            if (!jsonObject.has(uuid.toString())) {
+                jsonObject.addProperty(uuid.toString(), 0);
+                saveJsonObject();
+                return 0;
+            }
 
-        if (!jsonObject.has(uuid.toString())) {
-            jsonObject.addProperty(uuid.toString(), 0);
-            saveJsonObject();
+            Map<UUID, Float> map = new HashMap<>();
+            for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+                map.put(UUID.fromString(entry.getKey()), entry.getValue().getAsFloat());
+            }
+
+            LinkedHashMap<UUID, Float> sortedMap = map.entrySet().stream()
+                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+            List<UUID> list = new ArrayList<>(sortedMap.keySet());
+            return list.indexOf(uuid) + 1;
+        } catch (Exception exception) {
+            Stark.getInstance().getLogger().log(Level.SEVERE, "An error occurred while getting the balance of " + uuid.toString());
             return 0;
         }
-
-        Map<UUID, Float> map = new HashMap<>();
-        for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
-            map.put(UUID.fromString(entry.getKey()), entry.getValue().getAsFloat());
-        }
-
-        LinkedHashMap<UUID, Float> sortedMap = map.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-
-        List<UUID> list = new ArrayList<>(sortedMap.keySet());
-        return list.indexOf(uuid) + 1;
     }
 
 }
