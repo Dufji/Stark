@@ -1,4 +1,4 @@
-package com.dufji.stark.utils;
+package com.dufji.stark.utils.color;
 
 import org.bukkit.ChatColor;
 

@@ -1,12 +1,13 @@
-package com.dufji.stark.managers;
+package com.dufji.stark.utils;
 
 import com.dufji.stark.Stark;
-import com.dufji.stark.model.StarkPlayer;
+import com.dufji.stark.user.StarkPlayer;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class PlaceholderManager extends PlaceholderExpansion {
+
     @Override
     public @NotNull String getIdentifier() {
         return "stark";
@@ -38,7 +39,6 @@ public class PlaceholderManager extends PlaceholderExpansion {
                     return null;
             }
         }
-
 
         return null;
     }

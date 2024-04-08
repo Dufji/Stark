@@ -1,9 +1,8 @@
 package com.dufji.stark.commands;
 
 import com.dufji.stark.Stark;
-import com.dufji.stark.database.StarkDatabase;
-import com.dufji.stark.model.StarkPlayer;
-import com.dufji.stark.utils.CC;
+import com.dufji.stark.user.StarkPlayer;
+import com.dufji.stark.utils.color.CC;
 import dev.hyperskys.configurator.annotations.GetValue;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

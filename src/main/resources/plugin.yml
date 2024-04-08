@@ -1,5 +1,10 @@
 name: Stark
 version: '${project.version}'
-main: com.dufji.stark.Stark
+description: An economy plugin.
+website: www.hyperskys.dev
 authors: [Dufji, HyperSkys]
-depend: [Vault]
+
+main: com.dufji.stark.Stark
+softdepend:
+  - Vault
+  - PlaceholderAPI

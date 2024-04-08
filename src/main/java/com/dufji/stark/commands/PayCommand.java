@@ -1,49 +1,60 @@
 package com.dufji.stark.commands;
 
-import com.dufji.stark.Stark;
-import com.dufji.stark.model.StarkPlayer;
-import com.dufji.stark.utils.CC;
+import com.dufji.stark.user.StarkPlayer;
+import com.dufji.stark.utils.color.CC;
 import dev.hyperskys.configurator.annotations.GetValue;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Command;
-import revxrsal.commands.bukkit.annotation.CommandPermission;
+import revxrsal.commands.annotation.Cooldown;
 
 public class PayCommand {
 
-    public static @GetValue(file = "config.yml", path = "Messages.insufficient_balance") String notEnoughMoney = "&cFailed to load configuration message.";
-    public static @GetValue(file = "config.yml", path = "Messages.notice_player_paid_other") String paidPlayer = "&cFailed to load configuration message.";
-    public static @GetValue(file = "config.yml", path = "Messages.notice_player_received_other") String receivedMoney = "&cFailed to load configuration message.";
+    public static @GetValue(file = "config.yml", path = "Messages.player-not-found") String playerNotFound  = "&cFailed to load configuration message.";
+    public static @GetValue(file = "config.yml", path = "Messages.notice-player-paid-other") String noticePlayerPaidOther  = "&cFailed to load configuration message.";
+    public static @GetValue(file = "config.yml", path = "Messages.notice-player-received-other") String noticePlayerReceiveOther  = "&cFailed to load configuration message.";
+    public static @GetValue(file = "config.yml", path = "Messages.insufficient-balance") String insufficientBalance  = "&cFailed to load configuration message.";
+    public static @GetValue(file = "config.yml", path = "Messages.self-pay-error") String selfPayError  = "&cFailed to load configuration message.";
+    public static @GetValue(file = "config.yml", path = "Messages.minimum-amount") String minimumAmount  = "&cFailed to load configuration message.";
 
-    public static @GetValue(file = "config.yml", path = "Messages.invalid_amount") String invalidAmount = "&cFailed to load configuration message.";
 
+    @Command({"pay", "send"})
+    @Cooldown(value = 5)
+    public void onPayCommand(Player player, String targetName, float amount) {
 
-    private final Stark plugin;
+        if (targetName.equals(player.getName())) {
+            player.sendMessage(CC.translate(selfPayError));
+            return;
+        }
 
-    public PayCommand(Stark plugin) {
-        this.plugin = plugin;
-    }
+        OfflinePlayer target = Bukkit.getOfflinePlayer(targetName);
+        if (!target.hasPlayedBefore()) {
+            player.sendRawMessage(CC.translate(playerNotFound.replaceAll("%player%", targetName)));
+            return;
+        }
 
-    @Command({"pay", "sendmoney", "send"})
-    @CommandPermission("stark.command.pay")
-    public void onPayCommand(Player player, Player target, float amount) {
         StarkPlayer starkPlayer = new StarkPlayer(player.getUniqueId());
         StarkPlayer starkTarget = new StarkPlayer(target.getUniqueId());
 
         if (starkPlayer.getBalance() < amount) {
-            player.sendMessage(CC.translate(notEnoughMoney));
+            player.sendMessage(CC.translate(insufficientBalance));
             return;
         }
 
-        if(amount <= 0) {
-            player.sendMessage(CC.translate(invalidAmount));
+        if (amount <= 5) {
+            player.sendMessage(CC.translate(minimumAmount));
             return;
         }
 
         starkPlayer.setBalance(starkPlayer.getBalance() - amount);
         starkTarget.setBalance(starkTarget.getBalance() + amount);
+        player.sendMessage(CC.translate(noticePlayerPaidOther.replaceAll("%player%", targetName).replace("%amount%", String.valueOf(amount))));
 
-        player.sendMessage(CC.translate(paidPlayer.replaceAll("%player%", target.getName()).replaceAll("%amount%", Stark.formatCurrency(amount))));
-        target.sendMessage(CC.translate(receivedMoney.replaceAll("%player%", player.getName()).replaceAll("%amount%", Stark.formatCurrency(amount))));
+        if (target.isOnline()) {
+            target.getPlayer().sendMessage(CC.translate(noticePlayerReceiveOther.replaceAll("%player%", player.getName()).replace("%amount%", String.valueOf(amount))));
+        }
+
     }
+
 }

@@ -1,8 +1,8 @@
 package com.dufji.stark.commands;
 
 import com.dufji.stark.Stark;
-import com.dufji.stark.model.StarkPlayer;
-import com.dufji.stark.utils.CC;
+import com.dufji.stark.user.StarkPlayer;
+import com.dufji.stark.utils.color.CC;
 import dev.hyperskys.configurator.annotations.GetValue;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -10,6 +10,7 @@ import revxrsal.commands.annotation.Command;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 public class BalanceSetCommand {
+
     public static @GetValue(file = "config.yml", path = "Messages.admin_balance_set") String adminBalanceSet = "&cFailed to load configuration message.";
     public static @GetValue(file = "config.yml", path = "Messages.player_balance_set") String playerBalanceSet = "&cFailed to load configuration message.";
 
@@ -26,4 +27,5 @@ public class BalanceSetCommand {
             target.getPlayer().sendMessage(CC.translate(playerBalanceSet.replaceAll("%amount%", String.valueOf(Stark.formatCurrency(amount)))));
         }
     }
+
 }

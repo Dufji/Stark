@@ -81,6 +81,7 @@ public class StarkFileDatabase extends StarkDatabase {
         if (!jsonObject.has(uuid.toString())) {
             jsonObject.addProperty(uuid.toString(), balance);
             saveJsonObject();
+            return;
         }
 
         jsonObject.remove(uuid.toString());

@@ -4,19 +4,11 @@ Settings:
 Databases:
   MongoDB:
     "connection-uri": "mongodb://localhost:27017"
-    "database-name": "Stark"
   MySQL:
     "host": "localhost"
     "port": 3306
     "username": "root"
     "password": "password"
-    "database": "Stark"
-  Titanium:
-    "host": "localhost"
-    "port": 2048
-    "username": "admin"
-    "password": "password"
-    "database": "Stark"
 Messages:
   "account_not_found": "&c&lERROR! &4No account found for %player%"
   "view-balance-self": "&aYour balance is &a$%balance%"

@@ -1,4 +1,4 @@
-package com.dufji.stark.model;
+package com.dufji.stark.user;
 
 import com.dufji.stark.Stark;
 import lombok.Getter;

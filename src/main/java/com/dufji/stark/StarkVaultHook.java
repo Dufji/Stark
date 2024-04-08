@@ -1,7 +1,6 @@
-package com.dufji.stark.vault;
+package com.dufji.stark;
 
-import com.dufji.stark.Stark;
-import com.dufji.stark.model.StarkPlayer;
+import com.dufji.stark.user.StarkPlayer;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -11,10 +10,11 @@ import org.bukkit.OfflinePlayer;
 import java.util.ArrayList;
 import java.util.List;
 
+public class StarkVaultHook extends AbstractEconomy {
 
-public class VaultHook extends AbstractEconomy {
     private final Stark main;
-    public VaultHook(Stark main) {
+
+    public StarkVaultHook(Stark main) {
         this.main = main;
     }
 
@@ -31,7 +31,7 @@ public class VaultHook extends AbstractEconomy {
     }
 
     public String format(double balance) {
-        return this.main.formatCurrency(balance);
+        return Stark.formatCurrency(balance);
     }
 
     @Override
@@ -45,16 +45,31 @@ public class VaultHook extends AbstractEconomy {
     }
 
     public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        if (amount < 0.0D) return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "Cannot withdraw negative funds");
+
+        if (amount < 0.0D)
+            return new EconomyResponse(
+                    0.0D,
+                    0.0D,
+                    EconomyResponse.ResponseType.FAILURE,
+                    "Cannot withdraw negative funds"
+            );
 
         StarkPlayer starkPlayer = new StarkPlayer(player.getUniqueId());
         if (starkPlayer.getBalance() >= amount) {
             starkPlayer.setBalance(starkPlayer.getBalance() - (float) amount);
-            return new EconomyResponse(amount, starkPlayer.getBalance(), EconomyResponse.ResponseType.SUCCESS, null);
+            return new EconomyResponse(
+                    amount,
+                    starkPlayer.getBalance(),
+                    EconomyResponse.ResponseType.SUCCESS,
+                    null);
         }
 
 
-        return new EconomyResponse(0.0D, starkPlayer.getBalance(), EconomyResponse.ResponseType.FAILURE, "Insufficient funds");
+        return new EconomyResponse(0.0D,
+                starkPlayer.getBalance(),
+                EconomyResponse.ResponseType.FAILURE,
+                "Insufficient funds");
+
     }
 
     public EconomyResponse withdrawPlayer(OfflinePlayer player, String worldName, double amount) {
