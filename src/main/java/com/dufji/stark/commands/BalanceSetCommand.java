@@ -18,8 +18,6 @@ public class BalanceSetCommand {
     @CommandPermission("stark.admin.balance.set")
     public void onBalanceSetCommand(Player player, OfflinePlayer target, float amount) {
         StarkPlayer starkTarget = new StarkPlayer(target.getUniqueId());
-
-
         starkTarget.setBalance(amount);
         player.sendMessage(CC.translate(adminBalanceSet.replaceAll("%player%", target.getName()).replaceAll("%amount%", String.valueOf(Stark.formatCurrency(amount)))));
 

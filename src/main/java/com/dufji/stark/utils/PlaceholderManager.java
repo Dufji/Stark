@@ -31,12 +31,10 @@ public class PlaceholderManager extends PlaceholderExpansion {
             switch (identifier.toLowerCase()) {
                 case "balance":
                     return Stark.formatCurrency(starkPlayer.getBalance());
-
                 case "baltop_position":
                     return String.valueOf(starkPlayer.getBalTopPosition());
-
                 default:
-                    return null;
+                    return "Placeholder not found";
             }
         }
 

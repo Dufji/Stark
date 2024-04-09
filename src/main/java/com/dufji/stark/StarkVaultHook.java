@@ -210,4 +210,5 @@ public class StarkVaultHook extends AbstractEconomy {
     public EconomyResponse createBank(String name, String worldName) {
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "The bank is not supported!");
     }
+
 }

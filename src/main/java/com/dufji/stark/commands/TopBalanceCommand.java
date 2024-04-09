@@ -22,22 +22,21 @@ public class TopBalanceCommand {
     @Command({"topbalance","topbals","baltop"})
     @CommandPermission("stark.command.topbalance")
     public void onTopBalanceCommand(Player sender) {
-        OfflinePlayer[] allPlayers = Bukkit.getOfflinePlayers();
 
+        OfflinePlayer[] allPlayers = Bukkit.getOfflinePlayers();
         List<StarkPlayer> sortedPlayers = Arrays.stream(allPlayers)
                 .map(player -> new StarkPlayer(player.getUniqueId()))
                 .sorted(Comparator.comparing(StarkPlayer::getBalance).reversed())
-                .collect(Collectors.toList());
-
-        List<StarkPlayer> topPlayers = sortedPlayers.stream()
+                .collect(Collectors.toList()).stream()
                 .limit(10)
                 .collect(Collectors.toList());
 
         sender.sendMessage(CC.translate(topBalances));
-        for (int i = 0; i < topPlayers.size(); i++) {
-            StarkPlayer player = topPlayers.get(i);
+        for (int i = 0; i < 10; i++) {
+            StarkPlayer player = sortedPlayers.get(i);
             sender.sendMessage(CC.translate("&6") + (i + 1) + ". " + Bukkit.getOfflinePlayer(player.getUuid()).getName() + ": $" + Stark.formatCurrency(player.getBalance()));
         }
 
     }
+
 }
