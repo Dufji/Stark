@@ -6,7 +6,6 @@ import com.dufji.stark.commands.PayCommand;
 import com.dufji.stark.commands.TopBalanceCommand;
 import com.dufji.stark.database.StarkDatabase;
 import com.dufji.stark.utils.PlaceholderManager;
-import com.dufji.stark.utils.color.CC;
 import dev.hyperskys.configurator.Configurator;
 import dev.hyperskys.configurator.annotations.GetValue;
 import dev.hyperskys.configurator.api.Configuration;
@@ -23,12 +22,12 @@ public final class Stark extends JavaPlugin {
     private static @Getter Stark instance;
     private final Configuration configuration = new Configuration("config.yml");
     private StarkDatabase starkDatabase;
+    private Economy economy;
     private StarkVaultHook vault_hook;
-    private final Economy economy = null;
 
     public static @GetValue(file = "config.yml", path = "Messages.CurrencySingular") String currencySingular = "Dollar";
     public static @GetValue(file = "config.yml", path = "Messages.CurrencyPlural") String currencyPlural = "Dollars";
-    public static @GetValue(file = "config.yml", path = "Settings.database-type") String databaseKey  = "file";
+    public static @GetValue(file = "config.yml", path = "Settings.database-type") String databaseKey = "file";
 
 
     @Override
@@ -36,9 +35,10 @@ public final class Stark extends JavaPlugin {
         instance = this;
 
         // Vault Setup
-        if(getServer().getPluginManager().getPlugin("Vault") != null) {
-            getServer().getConsoleSender().sendMessage(CC.translate("&aStark - Hooking into vault..."));
-            getServer().getServicesManager().register(Economy.class, this.vault_hook = new StarkVaultHook(this), this, ServicePriority.High);
+        if (getServer().getPluginManager().getPlugin("Vault") != null) {
+            StarkVaultHook vaultHook = new StarkVaultHook(this);
+            getServer().getServicesManager().register(Economy.class, vaultHook, this, ServicePriority.Highest);
+            economy = vaultHook;
         }
 
     }

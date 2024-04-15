@@ -5,6 +5,7 @@ website: www.hyperskys.dev
 authors: [Dufji, HyperSkys]
 
 main: com.dufji.stark.Stark
-softdepend:
+depend:
   - Vault
+softdepend:
   - PlaceholderAPI
