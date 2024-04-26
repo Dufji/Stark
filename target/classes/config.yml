@@ -1,0 +1,26 @@
+Settings:
+  "vault-hook": true
+  "database-type": "file"
+Databases:
+  MongoDB:
+    "connection-uri": "mongodb://localhost:27017"
+  MySQL:
+    "username": "root"
+    "password": "password"
+    "connection-uri": "jdbc:mysql://localhost:3306/database"
+Messages:
+  "account_not_found": "&c&lERROR! &4No account found for %player%"
+  "view-balance-self": "&aYour balance is &a$%balance%"
+  "view-balance-other": "&aBalance of %player% is &c$%balance%"
+  "notice_player_paid_other": "&a$%amount% has been sent to %player%"
+  "notice_player_received_other": "&a$%amount% has been received from %player%"
+  "error_no_permission": "&c&lERROR! &7I'm sorry, but it seems that you do not have permission to do this. If you believe this is an error, please contact an administrator immediately."
+  "insufficient_balance": "&c&lERROR! &7You do not have enough money to make this transaction."
+  "invalid_amount": "&c&lERROR! &7The amount you entered is invalid. Please enter a valid amount."
+  "self_transaction_error": "&c&lERROR! &7You cannot transfer money to yourself."
+  "player_not_found": "&c&lERROR! &7The player you are trying to transfer money to does not exist."
+  "player-never-played": "&c&lERROR! &7%player% has never played before."
+  "error_something_went_wrong": "&c&lERROR! &7Something went wrong. Please contact an administrator immediately."
+  "admin_balance_set": "&a&lSUCCESS! &aYou have set &b%player%'s &abalance to &b$%amount%"
+  "player_balance_set": "&6&lNOTICE! &aYour balance has been set to $%amount%"
+  "top_playerbalances": "&aTop 10 player balances:"

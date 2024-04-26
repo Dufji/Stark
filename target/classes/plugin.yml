@@ -1,0 +1,11 @@
+name: Stark
+version: '1.0-SNAPSHOT'
+description: An economy plugin.
+website: www.hyperskys.dev
+authors: [Dufji, HyperSkys]
+
+main: com.dufji.stark.Stark
+depend:
+  - Vault
+softdepend:
+  - PlaceholderAPI

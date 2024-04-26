@@ -26,4 +26,8 @@ public class StarkPlayer {
         return Stark.getInstance().getStarkDatabase().getBalTopPosition(uuid);
     }
 
+    public UUID getUuid() {
+        return uuid;
+    }
+
 }

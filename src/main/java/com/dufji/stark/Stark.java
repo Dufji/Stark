@@ -75,4 +75,11 @@ public final class Stark extends JavaPlugin {
         return (amount == 1.0D) ? currencySingular : currencyPlural;
     }
 
+    public static Stark getInstance(){
+        return instance;
+    }
+
+    public StarkDatabase getStarkDatabase() {
+        return starkDatabase;
+    }
 }
